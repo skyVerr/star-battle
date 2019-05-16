@@ -1,0 +1,111 @@
+@font-face{font-family:'Fredoka One';src:url('/assets/fonts/fredokaone/FredokaOne-Regular.TTF')}
+@font-face{font-family:'Dekovar';src:url('/assets/fonts/decovaralpha/DecovarAlpha-VF.TTF')}
+
+body {
+	background-color: #252525;
+	/*background-image: url('../assets/images/background-3.jpg');*/
+}
+
+.container {
+	background-color: #252525;
+	background-image: url('../assets/images/background-1.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 1200px;
+	height: 600px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -300px 0 0 -600px;
+}
+
+@keyframes straightLine {
+  50% {
+    transform: translate3D(-50%, -100px, 0);
+  }
+}
+
+@keyframes spaceship {
+  50% {
+    transform: translate3D(20px,0, 0);
+  }
+}
+
+.center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+#main-spaceship{
+	width: 100px;
+	height: 70px;
+	margin: -35px 0 0 -50px;
+	animation: spaceship 1s infinite linear;
+}
+
+#logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -130px;
+	transform: translate(-50%, -50%);
+	animation: straightLine 1s infinite linear;
+	/*zoom: 1.2;*/
+} 
+
+#start-btn {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: 110px;
+	transform: translate(-50%, -50%);
+	border-radius: 10px;
+	font-family: 'Fredoka One';
+	font-size: 20px;
+	border: 0;
+	background-color: rgb(18, 17, 149);
+	background-position: center;
+	color: white;
+	transition: background-color 0.8s;
+}
+
+#start-btn:hover{
+	background: #241D4F radial-gradient(circle, transparent 1%,#241D4F 1%) center/15000% ;
+}
+
+#start-btn:active{
+	background: rgb(153, 153, 204);
+	background-size: 100%;
+  	transition: background 0s;
+}
+
+#instructions{
+	display: grid;
+	grid-column-gap: 300px;
+	/*background-color: blue;*/
+	margin: 20px;
+	/*display: none;*/
+}
+
+.item {
+	font-family: Dekovar;
+	color: white;
+	word-spacing: 2px;
+	font-size: 18px;
+	/*background-color: red;*/
+}
+
+.item > p {
+	padding: 8px;
+	justify-content: center;
+}	
+
+#tagline {
+	color: white;
+	transform: translate(-50%, 240px);
+	font-size: 25px;
+	font-family: 'Dekovar';
+	text-decoration: underline;
+}

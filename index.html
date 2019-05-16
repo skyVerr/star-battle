@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Star Battle</title>
+    <link rel="icon" href="./assets/images/logo-01.png">
+
+    <link rel="stylesheet" type="text/css" href="./lib/jquery-ui/jquery-ui.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./assets/styles.css">
+</head>
+<body>
+
+	<div class="container">
+		<img id="logo" src="./assets/images/logo-02.png">
+		<button id="start-btn" class="ui-button ui-widget ">START GAME</button>
+		<img src="./assets/images/spaceship.png" class="center" id="main-spaceship">
+
+		<div id="instructions">
+			<div class="item" style="grid-column-start: 1;">
+				<u><h1>How to Play Star Battle.</h1></u>
+				<p>Move the spaceship using the sensible areas in the screen</p>
+				<p>The timer present the time lapsed</p>
+				<p>The fuel counter show the remain fuel</p>
+				<p>During the flight, the spaceship needs to destroy the asteroids and enemy spaceships that are presented in the space</p>
+				<p>You can shoot pressing Space Bar</p>
+				<p>If the spaceship hits a asteroid or another spaceship, you lose 10 points of fuel</p>
+			</div>
+			
+			<div class="item" style="grid-column-start: 2;">
+				<p>Enemy spaceship needs 1 shot to be destroyed, you will get 5 points for each enemy destroyed</p>
+				<p>Asteroid needs 2 shots to be destroyed, you will get 10 points for each asteroid destroyed</p>
+				<p>If you destroy a friendly spaceship, you lose 10 points</p>
+				<p>During the flight, the spaceship needs to collect fuel in the space</p>
+				<p>You can pause the game clicking in a button pause, or pressing the letter "p"</p>
+				<p>Go beyond all limits</p>
+			</div>
+		</div>
+
+		<div class="center" id="tagline">Battle in Space with Star Battle Championship...</div>
+	</div>
+
+	<!-- libraries -->
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="./assets/script.js"></script>
+    <!-- ./ -->
+
+
+</body>
+</html>
