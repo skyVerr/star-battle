@@ -119,7 +119,7 @@ body {
 	position: absolute;
 	left: 120%;
 	top: 0px;
-	 z-index: 0;
+	z-index: 0;
 }
 
 .hide {
@@ -130,10 +130,30 @@ body {
 	cursor: none;
 }
 
-#laser{
+.laser{
 	position: absolute;
 	width: 15px;
 	height: 5px;
 	background-color: yellow;
 	z-index: 99;
+}
+
+.ship{
+	z-index: 98;
+	position: absolute;
+	right: -100px;
+}
+
+.asteroid{
+	z-index: 98;
+	position: absolute;
+	right: -200px;
+	width: 200px !important;
+	height: 200px !important;
+}
+
+.testing{
+	position: absolute;
+	top: 20px;
+	right: 500px;
 }
