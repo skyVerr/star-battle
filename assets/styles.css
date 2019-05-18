@@ -18,6 +18,7 @@ body {
 	left: 50%;
 	top: 50%;
 	margin: -300px 0 0 -600px;
+	overflow: hidden;
 }
 
 @keyframes straightLine {
@@ -42,6 +43,10 @@ body {
 	width: 100px;
 	height: 70px;
 	margin: -35px 0 0 -50px;
+	z-index: 99;
+}
+
+.spaceship-animation{
 	animation: spaceship 1s infinite linear;
 }
 
@@ -108,4 +113,27 @@ body {
 	font-size: 25px;
 	font-family: 'Dekovar';
 	text-decoration: underline;
+}   
+
+#planet{
+	position: absolute;
+	left: 120%;
+	top: 0px;
+	 z-index: 0;
+}
+
+.hide {
+	display: none !important;
+}
+
+.hide-cursor{
+	cursor: none;
+}
+
+#laser{
+	position: absolute;
+	width: 15px;
+	height: 5px;
+	background-color: yellow;
+	z-index: 99;
 }
