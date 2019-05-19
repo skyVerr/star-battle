@@ -138,6 +138,14 @@ body {
 	z-index: 99;
 }
 
+.red-laser{
+	position: absolute;
+	width: 15px;
+	height: 5px;
+	background-color: red;
+	z-index: 99;
+}
+
 .ship{
 	z-index: 98;
 	position: absolute;
@@ -156,4 +164,14 @@ body {
 	position: absolute;
 	top: 20px;
 	right: 500px;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.blink {
+  animation: blink-animation 0.5s steps(5, start) infinite;
 }

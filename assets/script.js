@@ -65,22 +65,45 @@ $(document).ready(function(){
 	}
 
 	function shoot(){
-		let offset = $('.container').offset();
-		let laser = $(`<div class="laser" style="left: "></div>`)
-		$('.container').prepend(laser);
+		if(document.getElementsByClassName('laser').length == 0){
+			let offset = $('.container').offset();
+			let laser = $(`<div class="laser"></div>`)
+			$('.container').prepend(laser);
 
-		var right = 1200- x;
-		var duration = ( right / 1200 ) *500;
+			var right = 1200- x;
+			var duration = ( right / 1200 ) *500;
 
-		$(laser).css({
-			"right": right,
-			"top": y
-		});
+			$(laser).css({
+				"right": right,
+				"top": y
+			});
 
-		$(laser).animate({"right": "-20px"}, duration, "linear", () => {
-			 $(laser).remove();
-		});
+			$(laser).animate({"right": "-20px"}, duration, "linear", () => {
+				 $(laser).remove();
+			});
+		}
 	}
+
+	function enemyShoot(enemy){
+		enemy[0].onload  = () => {
+			let offset = $('.container').offset();
+			let x = 1200 - $(enemy).get(0).x - offset.left;
+			let y = $(enemy).get(0).y - offset.top;
+			let duration = ( 1200 -x  / 1200) * 1000;
+			let laser = $(`<div class="red-laser" ></div>`);
+			let height = $(enemy)[0].clientHeight;
+			console.log(enemy);
+			$('.container').prepend(laser);  
+			$(laser).css({
+				"right": x,
+				"top": y + (height/2)
+			});
+			$(laser).animate({"right": "1220px"}, 1000, "linear", () => {
+				$(laser).remove();
+			});
+		}
+	}
+
 
 	function startGame(){
 		drawPlanets();
@@ -96,47 +119,125 @@ $(document).ready(function(){
 			onscreen = false;
 		});
 		spawnObjects();
-		detectCollision();
-		
+		setInterval(detectCollision, 1000/60);
 	}
 
 	function detectCollision(){
-		let spaceship = document.getElementById('main-spaceship')
-			.getBoundingClientRect();
+		let spaceship = document.getElementById('main-spaceship');
 
-		// $('.laser').each( () =>{
-		// 	let laser = this;
-		// 	$('.asteroid').each(() => {
-		// 		console.log($(this).get(0));
-		// 		if(doesCollide(this.getBoundingClientRect(), this.getBoundingClientRect()))
-		// 			console.log('colide');
-		// 	});
-		// });
+		let lasers = document.getElementsByClassName("laser");
+		let asteroids = document.getElementsByClassName("asteroid");
+		let enemies = document.getElementsByClassName("enemies");
+		let allies = document.getElementsByClassName("allies");
+		let redLaser = document.getElementsByClassName("red-laser");
+		
+		let laser = lasers[0];
 
-		let lasers = $('.laser');
-
-		for (var i = 0; i < lasers.length; i++) {
-			let laser = lasers[i];
-			let asteroids = $('.asteroid');
-			for (var i = 0; i < asteroids.length; i++) {
-				let asteroid = asteroids[i];
+		//test for asteroid collission
+		for (var i = 0; i < asteroids.length; i++) {
+			let asteroid = asteroids[i];
+			
+			//collide with laser
+			if(!!laser){
 				if (doesCollide(laser.getBoundingClientRect(), 
 					asteroid.getBoundingClientRect())) {
-					console.log('colide');
-				}
+					$(laser).remove();
+					$(asteroid).attr('hit', parseInt($(asteroid).attr('hit'))+1);
+					if($(asteroid).attr('hit') == 2){
+						$(asteroid).stop();
+						$(asteroid).attr('hit', 2);
+						$(asteroid).attr('exploded', true);
+						$(asteroid).effect('explode', {}, 500, () => {
+							$(asteroid).remove();
+						});
+					} 
+				} 
+			} 
+			
+			//asteroid collide with spaceship
+			if(doesCollide(spaceship.getBoundingClientRect(), 
+			asteroid.getBoundingClientRect()) &&  !!!$(asteroid).attr('exploded')){
+				console.log('hit');
+				$(asteroid).stop();
+				$(asteroid).attr('exploded', true);
+				$(asteroid).effect('explode', {}, 500, () => {
+					$(asteroid).remove();
+				});
 			}
 		}
 
-		setTimeout(detectCollision, 10);
+		//test for enemy collision
+		for (var i = 0; i < enemies.length; i++) {
+			let enemy = enemies[i];
+
+			if(!!laser){
+				if (doesCollide(laser.getBoundingClientRect(), 
+					enemy.getBoundingClientRect())) {
+					if(!!!$(enemy).attr('explode')){
+						$(laser).remove();
+						destroy(enemy);
+					} 
+				} 
+			} 
+
+			if(doesCollide(spaceship.getBoundingClientRect(), 
+			enemy.getBoundingClientRect()) &&  !!!$(enemy).attr('explode')){
+				destroy(enemy);
+			}
+		}
+
+		//test for ally collision
+		for (var i = 0; i < allies.length; i++) {
+			let ally = allies[i];
+
+			if(!!laser){
+				if (doesCollide(laser.getBoundingClientRect(), 
+					ally.getBoundingClientRect())) {
+					if(!!!$(ally).attr('explode')){
+						$(laser).remove();
+						destroy(ally);
+					} 
+				} 
+			} 
+
+			if(doesCollide(spaceship.getBoundingClientRect(), 
+			ally.getBoundingClientRect()) &&  !!!$(ally).attr('explode')){
+				destroy(ally);
+			}
+		}
+
+		//test for enemy laser collision
+		for (var i = 0; i < redLaser.length; i++) {
+			let laser = redLaser[i];
+
+		
+			if (doesCollide(spaceship.getBoundingClientRect(), 
+				laser.getBoundingClientRect())) {
+				if(!!!$(ally).attr('explode')){
+					$(laser).remove();
+					console.log('sapul');
+				} 
+			} 
+
+		}
+
+	}
+
+	function destroy(element){
+		$(element).stop();
+		$(element).attr('explode', true);
+		$(element).effect('explode', {}, 500, () => {
+			$(element).remove();
+		});
 	}
 
 	function doesCollide(ojbect1, object2){
-		if ( ojbect1.left < object2.left + object2.width && 
+		if (ojbect1.left < object2.left + object2.width && 
 			ojbect1.left + ojbect1.width > object2.left &&
 			ojbect1.top < object2.top + object2.height &&
 			ojbect1.top + ojbect1.height > object2.top) {
 			return true;
-		}
+		} else 
 		return false;
 	}
 
@@ -154,7 +255,7 @@ $(document).ready(function(){
 			
 			let asteroid = $(`
 					<img src="${asteroids[randomAsteroid]}"  class="asteroid" 
-					style="top:${randomY}px">
+					style="top:${randomY}px" hit="0">
 				`);
 			$('.container').append(asteroid);
 
@@ -181,7 +282,7 @@ $(document).ready(function(){
 		setTimeout( ()=>{
 			
 			let allyShip = $(`
-					<img src="${ally[randomAlly]}"  class="ship" 
+					<img src="${ally[randomAlly]}"  class="ship allies" 
 					style="top:${randomY}px" >
 				`);
 			$('.container').append(allyShip);
@@ -201,14 +302,16 @@ $(document).ready(function(){
 		setTimeout( ()=>{
 			
 			let enemyShip = $(`
-					<img src="${enemy[randomEnemy]}"  class="ship" 
+					<img src="${enemy[randomEnemy]}"  class="ship enemies" 
 					style="top:${randomY}px" >
 				`);
 			$('.container').append(enemyShip);
 
 			$(enemyShip).animate({'right': '1300px'}, 4000, 'linear', ()=>{
-				$(enemyShip).remove();
+				$(enemyShip).remove();      
 			});
+
+			enemyShoot(enemyShip);
 			spawnEnemies();
 		}, randomTime);
 	}
@@ -266,5 +369,3 @@ $(document).ready(function(){
 		$(element).removeClass('hide');
 	}
 });
-
-
